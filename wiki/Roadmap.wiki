@@ -4,6 +4,7 @@
 The transmem project is currently in an embryonic stage and there is much work that needs to be done to build the project into something better. The following list contains suggestions for future improvements. 
 
   * Test against all current STAMP benchmarks for functionality.
+  * Add early release pragma for labyrinth (Lee's TM).
   * Code tidy-up effort.
   * Stall handling, pass values back to stall the memory accesses.
   * Multiple invocations, currently the thrift socket is 9090 it should be set per run.
