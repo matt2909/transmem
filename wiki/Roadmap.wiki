@@ -9,3 +9,5 @@ The transmem project is currently in an embryonic stage and there is much work t
   * Multiple invocations, currently the thrift socket is 9090 it should be set per run.
   * Automate (through the tm header) turning the memory model on/off.
   * Automate some (limited for now) statistics gathering.
+  
+  * Possibly transactionify the ParSec benchmarks?
