@@ -1,5 +1,5 @@
 #summary This page details the roadmap for the transmem project.
-= transmem - Roadmap =
+== To-do list ==
 
 The transmem project is currently in an embryonic stage and there is much work that needs to be done to build the project into something better. The following list contains suggestions for future improvements. 
 
