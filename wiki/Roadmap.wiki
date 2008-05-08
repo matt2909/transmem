@@ -12,3 +12,9 @@ The transmem project is currently in an embryonic stage and there is much work t
   * Automate some (limited for now) statistics gathering.
   
   * Possibly transactionify the Parsec benchmarks?
+
+
+
+===Stall Handling===
+
+Partially implemented currently just passing back a constant value from the timing_model. Need to set this to *infinity* and then trigger a reset on a cycle event. Also need to handle cycle events.
