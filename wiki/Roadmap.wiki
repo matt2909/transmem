@@ -7,7 +7,7 @@ The transmem project is currently in an embryonic stage and there is much work t
     (kmeans(y), genome(-), labyrinth(-), bayes(-), vacation(-))
   * Add early release pragma for labyrinth (Lee's TM).
   * Code tidy-up effort.
-  * Stall handling, pass values back to stall the memory accesses.
+  * Stall handling, pass values back to stall the memory accesses (minimally implemented).
   * Multiple invocations, currently the thrift socket is 9090 it should be set per run.
   * Automate (through the tm header) turning the memory model on/off.
   * Automate some (limited for now) statistics gathering.
