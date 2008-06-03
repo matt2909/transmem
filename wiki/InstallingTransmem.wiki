@@ -10,11 +10,19 @@ _At this early stage I can't stress enough that the code is messy, buggy and not
 
   * cd /tmp
   * cp -r /home/stella/simics/thrift-20080411/ .
-  * 
- 
+  * cd thrift-20080411/
+  * ./configure
+  * make
+  * su
+  * make install
 
+_I had a few issues with compiling thrift on a more upto date machine because some of the thrift code is sloppy and doesn't include standard header files, its pretty easy to work out how to fix all the problems though_
 
-SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within.
+===Installing and Building transmem===
+
+Finally you're ready to install and build transmem:
+
+_SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within._
 
   * cd SIMICS_WORKSPACE
   * 
