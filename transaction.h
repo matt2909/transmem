@@ -32,6 +32,7 @@ public:
     void CommitTransaction();
     void AbortTransaction();
     bool CheckForReadConflict(physical_address_t addr);
+    bool CheckForReadConflict(physical_address_t addr, int size);
     void AbortReset();
     int MemoryOperation(generic_transaction_t *mop);
     int MemoryObserve(generic_transaction_t *mop);

@@ -188,8 +188,12 @@ void Transaction::AbortReset()
     }*/
 }
 
+bool Transaction::CheckForReadConflict(physical_address_t addr, int size) {
+    return memory_trace->has_read(addr, size);
+}
+
 bool Transaction::CheckForReadConflict(physical_address_t addr) {
-    return memory_trace->has_read(addr);
+    return CheckForReadConflict(addr, 4);
 }
 
 int Transaction::getWriteBufferSize() 
