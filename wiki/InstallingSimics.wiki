@@ -13,7 +13,7 @@ The following instructions assume you are installing on your local machine, you 
   
 You will be asked for an encryption key at this point, it can be found in /home/stella/simics/key.txt
 
-* choose all the default answers (yes, 1, /opt/virtutech, yes)
+ * choose all the default answers (yes, 1, /opt/virtutech, yes)
 
 {{{
 You should now see the following message:
