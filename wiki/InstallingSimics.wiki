@@ -42,4 +42,4 @@ export LM_LICENSE_FILE=/home/stella/simics/licenses/manchester_university-x2009-
 
 Thats it simics is now installed and ready to run!
 
-*You can now install [http://code.google.com/p/transmem/w/InstallingTransmem transmem]*
+*You can now install [http://code.google.com/p/transmem/wiki/InstallingTransmem transmem]*
