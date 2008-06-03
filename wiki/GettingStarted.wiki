@@ -7,4 +7,4 @@ This page provides a complete guide to getting up an running with the transmem t
 
 = Pre-requisites =
 
-The information provided here is largely applicable only to local (APT group) users, but should be obvious enough that most people with simics can follow the guide.
+The information provided here is largely applicable only to local (APT[http://www.cs.man.ac.uk/apt] group) users, but should be obvious enough that most people with simics can follow the guide.
