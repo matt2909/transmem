@@ -7,4 +7,10 @@ This page provides a complete guide to getting up an running with the transmem t
 
 = Pre-requisites =
 
-The information provided here is largely applicable only to local ([http://www.cs.man.ac.uk/apt APT group]) users, but should be obvious enough that most people with simics can follow the guide.
+The information provided here is largely applicable only to local ([http://www.cs.man.ac.uk/apt APT group]) users, but should be obvious enough that most people with a working knowledge of simics can follow the guide.
+
+This guide is split into 3 parts:
+
+* Installing simics (local user specific).
+* Installing and compiling the transmem module.
+* Running the STAMP benchmark suite.
