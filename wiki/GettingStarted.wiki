@@ -11,6 +11,6 @@ The information provided here is largely applicable only to local ([http://www.c
 
 This guide is split into 3 parts:
 
- *[http://code.google.com/p/transmem/wiki/InstallingSimics Installing simics (local user specific)]
+ *Installing Simics [http://code.google.com/p/transmem/wiki/InstallingSimics Simics]
  *[Installing and compiling the transmem module]
  *[Running the STAMP benchmark suite]
