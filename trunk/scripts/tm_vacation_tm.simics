@@ -1,0 +1,41 @@
+# invoke with:
+#./simics -c <checkpoint name>
+# -x tm_harness_simple_tm.simics
+
+read-configuration ./checkpoints/x86_32p_clean
+load-module transaction_module
+python "SIM_create_object(\"transaction_module\", \"tm0\", [])"
+
+script-branch {
+ con0.input "clear\n"
+ con0.wait-for-string "#"
+ con0.input "mount /host\n"
+ con0.wait-for-string "#"
+ con0.input "ulimit -c 0\n"
+ con0.wait-for-string "#"
+ con0.input "cp /host/mnt/scratch/stamp/stamp-0.9.7/vacation/vacation .\n"
+ con0.wait-for-string "#"
+ con0.input "umount /host\n"
+ con0.wait-for-string "#"
+ con0.input "./vacation -c32 -n4 -q60 -u90 -r16384 -t4096\n"
+ con0.break "SimStart"
+}
+
+r
+echo "SimStart"
+instruction-fetch-mode no-instruction-fetch
+#istc-disable
+dstc-disable
+phys_mem0->timing_model = tm0
+phys_mem0->snoop_device = tm0
+cpu-switch-time cycles = 1
+con0.break "SimStop"
+r
+echo "SimStop"
+phys_mem0->timing_model = 0
+phys_mem0->snoop_device = 0
+cpu-switch-time cycles = 100000
+con0.break "#"
+r
+stop
+
