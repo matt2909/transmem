@@ -25,5 +25,11 @@ Finally you're ready to install and build transmem:
 _SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within._
 
   * cd SIMICS_WORKSPACE
-  * 
+  * cd modules
   * svn checkout http://transmem.googlecode.com/svn/trunk/ transmem-read-only
+  * cd SIMICS_WORKSPACE
+  * make
+
+Fingers crossed transmem should now have compiled and built!
+
+On to doing something with it! [Running STAMP]
