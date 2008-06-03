@@ -1,0 +1,29 @@
+<project name="simple" default="simple" basedir=".">
+
+  <description>Thrift Simple TM</description>
+
+  <property name="src" location="src" />
+  <property name="gen" location="../gen-java" />
+  <property name="build" location="build" />
+  <property name="cpath" location="/usr/local/lib/libthrift.jar" />
+
+  <target name="init">
+    <tstamp />
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${gen}" destdir="${build}" classpath="${cpath}" />
+    <javac srcdir="${src}" destdir="${build}" classpath="${cpath}:${gen}" />
+  </target>
+
+  <target name="simple" depends="compile">
+    <jar jarfile="simple.jar" basedir="${build}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}" />
+    <delete file="simple.jar" />
+  </target>
+
+</project>

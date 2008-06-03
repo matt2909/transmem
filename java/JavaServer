@@ -1,0 +1,2 @@
+#!/bin/sh
+java -cp simple.jar:/usr/local/lib/libthrift.jar JavaServer
