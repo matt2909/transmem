@@ -15,9 +15,8 @@ You will be asked for an encryption key at this point, it can be found in /home/
 
  * choose all the default answers (yes, 1, /opt/virtutech, yes)
 
-{{{
 You should now see the following message:
-
+{{{
 Simics 3.0.31 was successfully installed as /opt/virtutech/simics-3.0.31/
 
 No Simics add-on packages requested to be installed.
