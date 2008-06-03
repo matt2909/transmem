@@ -32,4 +32,4 @@ _SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within.
 
 Fingers crossed transmem should now have compiled and built!
 
-On to doing something with it! [Running STAMP]
+On to doing something with it! [http://code.google.com/p/transmem/wiki/RunningSTAMP Running STAMP]
