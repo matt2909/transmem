@@ -185,7 +185,8 @@ int Controller::MemoryObserve(generic_transaction_t *mop)
        for(int i = 0; i < cont_num_cpus; i++) { 
           if(i != cpu_num && trans_handler[i]->runningTransaction() && mop->type == Sim_Trans_Store) {
              int addr = mop->physical_address;
-             if(trans_handler[i]->CheckForReadConflict(addr))
+             int size = mop->size;
+             if(trans_handler[i]->CheckForReadConflict(addr, size))
              {
                 cout << "Non-transactional write on core [" << cpu_num << "] kills core [" << i << "]!" << endl;
                 //trans_handler[i]->AbortTransaction();

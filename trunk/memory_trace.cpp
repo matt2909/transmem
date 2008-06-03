@@ -181,10 +181,16 @@ void MemoryTrace::commit_writes()
 }
 
 
-bool MemoryTrace::has_read(physical_address_t addr)
+bool MemoryTrace::has_read(physical_address_t addr, int size)
 {
+    
     if(read_set.find(addr & ~3) != read_set.end()) {
         return true;
+    }
+    if(size > 4) {
+        if(read_set.find((addr & ~3) + 4) != read_set.end()) {
+            return true;
+        }
     }
     return false;
 }
@@ -235,17 +241,17 @@ physical_address_t MemoryTrace::getBufferedWrite(int index)
 /** removes lines from a 32-byte cache */
 void MemoryTrace::earlyRelease(int address)
 {
-    int rs_size = read_set.size();
-    int found = 0;
+    //int rs_size = read_set.size();
+    //int found = 0;
 
     for(int i = 0; i < 32; i += 4) {
         physical_address_t remAddress = SIM_logical_to_physical(cpu, Sim_DI_Data, logical_address_t(address + i));
 
-        if(read_set.find(remAddress) != read_set.end()) found++;
+        //if(read_set.find(remAddress) != read_set.end()) found++;
             
         read_set.erase(remAddress);
     }
-    cout << "read_set reduced by " << (rs_size - read_set.size()) << "(" << read_set.size() << "," << rs_size << ") [" << found << "]" << endl;
+    //cout << "read_set reduced by " << (rs_size - read_set.size()) << "(" << read_set.size() << "," << rs_size << ") [" << found << "]" << endl;
 }
 
 

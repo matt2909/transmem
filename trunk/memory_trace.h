@@ -32,7 +32,7 @@ public:
     ~MemoryTrace();
     void clear();
     void commit_writes();
-    bool has_read(physical_address_t addr);
+    bool has_read(physical_address_t addr, int size);
     int getWriteBufferSize();
     physical_address_t getBufferedWrite(int index);
     void OperateMemoryRead(generic_transaction_t *mop);
