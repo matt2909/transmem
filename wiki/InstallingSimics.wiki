@@ -26,3 +26,12 @@ one, by running the following script:
 
     /opt/virtutech/simics-3.0.31/bin/workspace-setup
 }}}
+
+If you do see the message above then simics installed correctly. You now need to create yourself a workspace, essentially an area that links to simics within your own userspace, or if you prefer somewhere on your /scratch partition (at your own risk of losing it!!).
+
+You can set up a workspace in a directory of your choice by using the command :
+{{{
+    /opt/virtutech/simics-3.0.31/bin/workspace-setup
+}}}
+
+Thats it simics is now installed and ready to run!
