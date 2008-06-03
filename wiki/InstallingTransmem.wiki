@@ -5,3 +5,17 @@ transmem is an embryonic module for experimenting with transactional memory with
 The current state of transmem is that it allows multi-processor simulations to occur whilst maintaining a lazy-evaluation of transactions (a bit like TCC), and opposite to Log-TM (which is early evaluation). transmem can be used to evaluate benchmarks (such as the STAMP suite), using event driven simulation so that changes to the hardware schemes change the running pattern of the transactions (unlike research carried out using traces, although transmem can also be used to generate traces).
 
 _At this early stage I can't stress enough that the code is messy, buggy and not fully evaluated so please use totally at your own risk, I will maintain the codebase and hope others will help out if they are interested.-
+
+*In the current code base their is a reliance on [http://developers.facebook.com/thrift/ thrift] I am working to remove this requirement, the work-around for now is:*
+
+  * cd /tmp
+  * cp -r /home/stella/simics/thrift-20080411/ .
+  * 
+ 
+
+
+SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within.
+
+  * cd SIMICS_WORKSPACE
+  * 
+  * svn checkout http://transmem.googlecode.com/svn/trunk/ transmem-read-only
