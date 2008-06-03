@@ -2,10 +2,28 @@
 
 This guide will walk you through installing Simics on your local machine, this is fairly specific to our local setup in Manchester, so please just install simics as per your user manual as a fail-safe. 
 
- # cd /tmp
- # cp /home/stella/simics/install-files/simics-pkg-20-3.0.31-linux.tar .
- # tar -xvf simics-pkg-20-3.0.31-linux.tar
- # cd simics-3.0-install/
- # su
- # ./install-simics.sh 
-   You will be asked for an encryption key which is in /home/stella/simics/key.txt
+The following instructions assume you are installing on your local machine, you have root or can get root permissions there, and that simics is not already installed.
+
+ * cd /tmp
+ * cp /home/stella/simics/install-files/simics-pkg-20-3.0.31-linux.tar .
+ * tar -xvf simics-pkg-20-3.0.31-linux.tar
+ * cd simics-3.0-install/
+ * su
+ * ./install-simics.sh 
+  
+You will be asked for an encryption key at this point, it can be found in /home/stella/simics/key.txt
+
+* choose all the default answers (yes, 1, /opt/virtutech, yes)
+
+{{{
+You should now see the following message:
+
+Simics 3.0.31 was successfully installed as /opt/virtutech/simics-3.0.31/
+
+No Simics add-on packages requested to be installed.
+
+Each Simics user can now create a workspace, or update an existing
+one, by running the following script:
+
+    /opt/virtutech/simics-3.0.31/bin/workspace-setup
+}}}
