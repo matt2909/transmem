@@ -1,0 +1,10 @@
+#summary Explains how to get started with the module
+
+= Introduction =
+
+This page provides a complete guide to getting up an running with the transmem transactional memory module for use with simics.
+
+
+= Pre-requisites =
+
+The information provided here is largely applicable only to local (APT group) users, but should be obvious enough that most people with simics can follow the guide.
