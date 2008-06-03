@@ -34,4 +34,10 @@ You can set up a workspace in a directory of your choice by using the command :
     /opt/virtutech/simics-3.0.31/bin/workspace-setup
 }}}
 
+*Important*
+For convenience please add the following line to your .bashrc (or equivalent file).
+{{{
+export LM_LICENSE_FILE=/home/stella/simics/licenses/manchester_university-x2009-03-18.lic:$LM_LICENSE_FILE
+}}}
+
 Thats it simics is now installed and ready to run!
