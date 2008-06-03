@@ -4,4 +4,4 @@ transmem is an embryonic module for experimenting with transactional memory with
 
 The current state of transmem is that it allows multi-processor simulations to occur whilst maintaining a lazy-evaluation of transactions (a bit like TCC), and opposite to Log-TM (which is early evaluation). transmem can be used to evaluate benchmarks (such as the STAMP suite), using event driven simulation so that changes to the hardware schemes change the running pattern of the transactions (unlike research carried out using traces, although transmem can also be used to generate traces).
 
-At this early stage I can't stress enough that the code is messy, buggy and not fully evaluated so please use totally at your own risk, I will maintain the codebase and hope others will help out if they are interested.
+_At this early stage I can't stress enough that the code is messy, buggy and not fully evaluated so please use totally at your own risk, I will maintain the codebase and hope others will help out if they are interested.-
