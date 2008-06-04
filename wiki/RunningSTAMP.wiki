@@ -20,3 +20,5 @@ You can now run one of the example scripts e.g:
 cd SIMICS_WORKSPACE
 ./simics -stall modules/transmem-read-only/scripts/tm_bayes_tm.simics
 }}}
+
+*Depending on your version of GCC you may need to remove the file <simics>/x86-linux/sys/lib/libgcc_s.so.1 so that it doesn't conflict when you compiler*
