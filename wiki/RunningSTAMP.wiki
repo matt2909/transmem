@@ -1,3 +1,6 @@
 #summary How to run STAMP benchmarks using transmem
 
-In order to run STAMP you'll need to download the STAMP benchmarks, available from [http://stamp.stanford.edu/ stamp's website].
+In order to run STAMP you'll need to first download the STAMP benchmarks, available from [http://stamp.stanford.edu/ stamp's website]. I've tested this with 0.9.7 (I know 0.9.8 is now available, perhaps I'll test this soon).
+
+  * install the stamp benchmarks somewhere (e.g. /mnt/scratch/stamp/stamp-0.9.7)
+  * insert the files in transmem/stamp into the relevant stamp file.
