@@ -15,6 +15,7 @@ _At this early stage I can't stress enough that the code is messy, buggy and not
   * make
   * su
   * make install
+  * export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 _I had a few issues with compiling thrift on a more upto date machine because some of the thrift code is sloppy and doesn't include standard header files, its pretty easy to work out how to fix all the problems though_
 
