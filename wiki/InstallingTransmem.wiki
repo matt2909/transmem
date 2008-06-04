@@ -6,7 +6,7 @@ The current state of transmem is that it allows multi-processor simulations to o
 
 _At this early stage I can't stress enough that the code is messy, buggy and not fully evaluated so please use totally at your own risk, I will maintain the codebase and hope others will help out if they are interested.-
 
-*In the current code base their is a reliance on [http://developers.facebook.com/thrift/ thrift] I am working to remove this requirement, the work-around for now is:*
+*In the current code base their is a reliance on [http://developers.facebook.com/thrift/ thrift] I am working to remove this requirement, for now you need to install thrift:*
 
   * cd /tmp
   * cp -r /home/stella/simics/thrift-20080411/ .
