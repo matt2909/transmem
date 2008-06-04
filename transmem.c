@@ -35,7 +35,7 @@
 #include "tm_init.h"
 
 /* USER-TODO: Set the name of the device class */
-#define DEVICE_NAME "transaction_module"
+#define DEVICE_NAME "transmem"
 #define TRANS_OFF 0
 #define TRANS_ON  1
 
