@@ -86,7 +86,7 @@ void Transaction::BeginTransaction(int process_num)
         //cout << SIM_get_program_counter(SIM_current_processor()) << endl;
         //cout << "Begin started at " << SIM_get_program_counter(cpu) << endl;
         checkpointRegisters();
-        disableInterrupts();
+        //disableInterrupts();
         clearStats();
     }
     else {
