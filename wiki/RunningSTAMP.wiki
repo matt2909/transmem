@@ -3,4 +3,20 @@
 In order to run STAMP you'll need to first download the STAMP benchmarks, available from [http://stamp.stanford.edu/ stamp's website]. I've tested this with 0.9.7 (I know 0.9.8 is now available, perhaps I'll test this soon).
 
   * install the stamp benchmarks somewhere (e.g. /mnt/scratch/stamp/stamp-0.9.7)
-  * insert the files in transmem/stamp into the relevant stamp file.
+  * insert the files in transmem/stamp into the relevant stamp directories.
+
+The script files (inside transmem/scripts) assume that you have x86 linux checkpoints for various number of processor configurations. If you are a local user you can get the checkpoints as follows:
+{{{
+su
+cp /home/stella/simics/craffs/tango1-fedora5.craff opt/virtutech/simics-3.0.31/targets/x86-440bx/images/
+exit
+cd SIMICS_WORKSPACE
+cp /home/stella/simics/checkpoints .
+cp /home/stella/simics/
+}}}
+You can now run one of the example scripts e.g:
+
+{{{
+cd SIMICS_WORKSPACE
+./simics -stall modules/transmem-read-only/scripts/tm_bayes_tm.simics
+}}}
