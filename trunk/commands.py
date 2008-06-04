@@ -31,9 +31,9 @@ def increment_value_cmd(obj):
 
 new_command("increment", increment_value_cmd, [],
             alias = "",
-            type  = "transaction_module commands",
+            type  = "transmem commands",
             short = "increment value",
-	    namespace = "transaction_module",
+	    namespace = "transmem",
             doc = """
 Increments the value by adding 1 to it.
 """)
@@ -46,7 +46,7 @@ def get_info(obj):
     # USER-TODO: Return something useful here
     return []
 
-sim_commands.new_info_command('transaction_module', get_info)
+sim_commands.new_info_command('transmem', get_info)
 
 #
 # ------------------------ status -----------------------
@@ -57,4 +57,4 @@ def get_status(obj):
     return [("Internals",
              [("Attribute 'value'", SIM_get_attribute(obj, "value"))])]
 
-sim_commands.new_status_command('transaction_module', get_status)
+sim_commands.new_status_command('transmem', get_status)
