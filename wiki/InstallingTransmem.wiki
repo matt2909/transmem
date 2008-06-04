@@ -7,16 +7,16 @@ The current state of transmem is that it allows multi-processor simulations to o
 _At this early stage I can't stress enough that the code is messy, buggy and not fully evaluated so please use totally at your own risk, I will maintain the codebase and hope others will help out if they are interested.-
 
 *In the current code base their is a reliance on [http://developers.facebook.com/thrift/ thrift] I am working to remove this requirement, for now you need to install thrift:*
-
-  * cd /tmp
-  * cp -r /home/stella/simics/thrift-20080411/ .
-  * cd thrift-20080411/
-  * ./configure
-  * make
-  * su
-  * make install
-  * export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
+{{{
+cd /tmp
+cp -r /home/stella/simics/thrift-20080411/ .
+cd thrift-20080411/
+./configure
+make
+su
+make install
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+}}}
 _I had a few issues with compiling thrift on a more upto date machine because some of the thrift code is sloppy and doesn't include standard header files, its pretty easy to work out how to fix all the problems though_
 
 ===Installing and Building transmem===
@@ -24,13 +24,13 @@ _I had a few issues with compiling thrift on a more upto date machine because so
 Finally you're ready to install and build transmem:
 
 _SIMICS_WORKSPACE - refers to a local workspace you want to use transmem within._
-
-  * cd SIMICS_WORKSPACE
-  * cd modules
-  * svn checkout http://transmem.googlecode.com/svn/trunk/ transmem-read-only
-  * cd SIMICS_WORKSPACE
-  * make
-
+{{{
+cd SIMICS_WORKSPACE
+cd modules
+svn checkout http://transmem.googlecode.com/svn/trunk/ transmem-read-only
+cd SIMICS_WORKSPACE
+make
+}}}
 Fingers crossed transmem should now have compiled and built!
 
 On to doing something with it! [http://code.google.com/p/transmem/wiki/RunningSTAMP Running STAMP]
