@@ -46,6 +46,7 @@ public:
     int nestingLevel();
     bool lastLoad(physical_address_t addr);
     //processor_t* getCPU();
+
 private:
     int mStatus;
     unsigned int mCpuNum;
