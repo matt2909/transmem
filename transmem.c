@@ -175,7 +175,8 @@ static void core_exception_return(void *callback_data, conf_object_t *obj,
       printf("Depth ==> %d\n", depth);
       if(depth == 0) {
           printf("Transaction restarted by exception completion\n");
-          SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
+	  abort_transaction();
+          //SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
       }
    }
    SIM_clear_exception();
