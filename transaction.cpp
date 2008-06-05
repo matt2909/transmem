@@ -5,9 +5,9 @@ using namespace simple;
 Transaction::Transaction(unsigned int cpu_num, Thrift_Client* tc)
 {
     
-    tm_cpu_num = cpu_num;
+    mCpuNum = cpu_num;
     mTc = tc;
-    cpu = SIM_get_processor(tm_cpu_num);
+    cpu = SIM_get_processor(mCpuNum);
     clearStats();
     memory_trace = new MemoryTrace(cpu);
     nesting = 0;
@@ -40,8 +40,6 @@ Transaction::Transaction(unsigned int cpu_num, Thrift_Client* tc)
 
    /* Checkpointing state for the x86-p4 sse unit */
    /* Checkpointing state for the x86-p4 mmx registers */
-    
-     
 }
 
 Transaction::~Transaction() 
@@ -53,20 +51,12 @@ Transaction::~Transaction()
 }
 
 bool Transaction::runningTransaction() {
-    return (tm_status == TRANS_ON);
+    return (mStatus == TRANS_ON);
 }
 
 int Transaction::nestingLevel() {
     return nesting;
 }
-/*processor_t* Transaction::getCPU() {
-    return cpu;
-}*/
-
-/*void Transaction::SetBeginPC(logical_address_t begin_pc)
-{
-    pc = begin_pc;
-}*/
 
 void Transaction::BeginTransaction(int process_num) 
 {
@@ -78,11 +68,11 @@ void Transaction::BeginTransaction(int process_num)
         // grab the program counter
         pc = SIM_get_program_counter(cpu);
         tm_process_num = process_num;
-        tm_status = TRANS_ON;
+        mStatus = TRANS_ON;
         //clear sets
         //disable interrupts
-        cout << "[" << tm_cpu_num << "] Begin  transaction (" << process_num << ")" << endl;
-        mTc->operate(tm_cpu_num, BEGIN, (int)SIM_cycle_count(cpu)); 
+        cout << "[" << mCpuNum << "] Begin  transaction (" << process_num << ")" << endl;
+        mTc->operate(mCpuNum, BEGIN, (int)SIM_cycle_count(cpu)); 
         //cout << SIM_get_program_counter(SIM_current_processor()) << endl;
         //cout << "Begin started at " << SIM_get_program_counter(cpu) << endl;
         checkpointRegisters();
@@ -90,7 +80,7 @@ void Transaction::BeginTransaction(int process_num)
         clearStats();
     }
     else {
-       cout << "nesting > 1? [cpu:" << tm_cpu_num << "] ==> " << nesting << " resetting to 1 " << endl;
+       cout << "nesting > 1? [cpu:" << mCpuNum << "] ==> " << nesting << " resetting to 1 " << endl;
        nesting = 1;
     }
     //SIM_clear_exception();
@@ -98,8 +88,8 @@ void Transaction::BeginTransaction(int process_num)
 
 void Transaction::CommitTransaction()
 {
-    if(tm_status == TRANS_PAUSE) { //commit triggered at start of exception nesting
-       tm_status = TRANS_OFF;      //set transactions off we don't want to do anything
+    if(mStatus == TRANS_PAUSE) { //commit triggered at start of exception nesting
+       mStatus = TRANS_OFF;      //set transactions off we don't want to do anything
 	clearStats();
         memory_trace->commit_writes();
         memory_trace->clear();
@@ -109,11 +99,11 @@ void Transaction::CommitTransaction()
         tm_process_num = -1;
         return;
      }
-     else if(tm_status == TRANS_OFF) {
+     else if(mStatus == TRANS_OFF) {
         nesting--;
         if(nesting != 0) 
         {
-           cout << "[assert] nesting depth [cpu:" << tm_cpu_num << "] ==> " << nesting << endl;
+           cout << "[assert] nesting depth [cpu:" << mCpuNum << "] ==> " << nesting << endl;
            nesting = 0;
         }
         assert(((int)nesting) == 0);
@@ -131,16 +121,16 @@ void Transaction::CommitTransaction()
      else { //default case inside well-behaved transactions!
         nesting--;
         if(nesting != 0) {
-           cout << "[normal] nesting depth [cpu:" << tm_cpu_num << "] ==> " << nesting << endl;
+           cout << "[normal] nesting depth [cpu:" << mCpuNum << "] ==> " << nesting << endl;
            nesting = 0;
         }
         assert(((int)nesting) == 0);
         assert(!mHandlingException);
         if(nesting == 0)
         {
-           tm_status = TRANS_OFF;
+           mStatus = TRANS_OFF;
            enableInterrupts();
-           cout << "[" << tm_cpu_num << "] Commit transaction (" << tm_process_num << 
+           cout << "[" << mCpuNum << "] Commit transaction (" << tm_process_num << 
                    ")" << endl;
            clearStats();
            memory_trace->commit_writes();
@@ -151,21 +141,21 @@ void Transaction::CommitTransaction()
            tm_process_num = -1;
         }
     }
-    mTc->operate(tm_cpu_num, COMMIT, (int)SIM_cycle_count(cpu));
+    mTc->operate(mCpuNum, COMMIT, (int)SIM_cycle_count(cpu));
 }
 
 void Transaction::AbortTransaction()
 {
-    cout << "[" << tm_cpu_num << "] Abort  transaction (" << tm_process_num << 
+    cout << "[" << mCpuNum << "] Abort  transaction (" << tm_process_num << 
             ") depth " << nesting << endl;
-    mTc->operate(tm_cpu_num, ABORT, (int)SIM_cycle_count(cpu));
+    mTc->operate(mCpuNum, ABORT, (int)SIM_cycle_count(cpu));
     nesting = 0;
     memory_trace->clear();
     restoreRegisters();
     registers.clear();
     fpu_registers.clear();
     clearStats();
-    tm_status = TRANS_OFF;
+    mStatus = TRANS_OFF;
     enableInterrupts();
 }
 
@@ -182,9 +172,9 @@ void Transaction::clearStats()
 void Transaction::AbortReset()
 {
    assert(0);
-    /*if(tm_status == TRANS_ABORT)
+    /*if(mStatus == TRANS_ABORT)
     {
-        tm_status = TRANS_ON;
+        mStatus = TRANS_ON;
     }*/
 }
 
@@ -208,7 +198,7 @@ physical_address_t Transaction::getBufferedWrite(int index)
 
 int Transaction::MemoryOperation(generic_transaction_t *mop)
 {
-    if(tm_status == TRANS_ON) {
+    if(mStatus == TRANS_ON) {
         switch(mop->type)
         {
             case Sim_Trans_Load: 
@@ -229,7 +219,7 @@ int Transaction::MemoryOperation(generic_transaction_t *mop)
 
 int Transaction::MemoryObserve(generic_transaction_t *mop)
 {
-     if(tm_status == TRANS_ON) {
+     if(mStatus == TRANS_ON) {
         switch(mop->type)
         {
             case Sim_Trans_Load: 
@@ -302,7 +292,7 @@ void Transaction::checkpointRegisters()
     //read floating point registers
     attr_list_t fpu_regs = SIM_get_attribute(cpu, "fpu_regs").u.list;
     for(int i = 0; i < fpu_regs.size; i++) {
-    //    cout << "[" << tm_cpu_num << "] fpureg[" << i << "] ";
+    //    cout << "[" << mCpuNum << "] fpureg[" << i << "] ";
         //uint8 data[fpu_regs.vector[i].u.data.size];
         for(int j = 0; j < fpu_regs.vector[i].u.data.size; j++) {
            fpu_registers_att->u.list.vector[i].u.data.data[j] = fpu_regs.vector[i].u.data.data[j];
@@ -346,7 +336,7 @@ void Transaction::restoreRegisters()
    SIM_set_attribute(cpu, "fpu_regs", fpu_registers_att); 
 /*    for(int i = 0; i < (int)fpu_registers.size(); i++)
     {
-       cout << "[" << tm_cpu_num << "] fpureg[" << i << "] ";
+       cout << "[" << mCpuNum << "] fpureg[" << i << "] ";
        for(int j = 0; j < fpu_regs.vector[i].u.data.size; j++) {
           cout << (int)fpu_regs.vector[i].u.data.data[j] << " ";
           fpu_regs.vector[i].u.data.data[j] = fpu_registers[i][j];
@@ -386,7 +376,7 @@ int Transaction::handlingException(int exception)
    mHandlingException = true;
    mPauseDepth++;
    if(mPauseDepth == 1) {
-      tm_status = TRANS_PAUSE;
+      mStatus = TRANS_PAUSE;
       enableInterrupts();
    }
    return mPauseDepth;
@@ -397,7 +387,7 @@ int Transaction::clearingException(int exception)
    mPauseDepth--;
    if(mPauseDepth == 0) 
    {
-      //tm_status = TRANS_ON;
+      //mStatus = TRANS_ON;
       //disableInterrupts();
       //AbortTransaction();
    }
@@ -406,7 +396,7 @@ int Transaction::clearingException(int exception)
 
 bool Transaction::inException() 
 {
-   return (tm_status == TRANS_PAUSE || mHandlingException);
+   return (mStatus == TRANS_PAUSE || mHandlingException);
 }
 
 
