@@ -328,9 +328,9 @@ void Transaction::restoreRegisters()
     //printf("Register list size == %d\n", (int)registers.size());
     for(int i = 0; i < (int)registers.size(); i++)
     {
-        if(i < 26) {
+        //if(i < 26) {
            SIM_write_register(cpu, i, registers[i]);
-        }
+        //}
     }
 
    attr_list_t fpu_regs = SIM_get_attribute(cpu, "fpu_regs").u.list;
