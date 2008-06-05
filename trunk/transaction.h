@@ -47,8 +47,8 @@ public:
     bool lastLoad(physical_address_t addr);
     //processor_t* getCPU();
 private:
-    int tm_status;
-    unsigned int tm_cpu_num;
+    int mStatus;
+    unsigned int mCpuNum;
     processor_t *cpu;
     unsigned int tm_process_num;
     unsigned int tm_nesting;

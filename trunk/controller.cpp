@@ -214,8 +214,8 @@ bool Controller::InException(int cpu)
 int Controller::handlingException(int cpu, int exception)
 {
    int depth = trans_handler[cpu]->handlingException(exception);
-   if(depth == 1) 
-      CommitTransaction();
+   //if(depth == 1) 
+   //CommitTransaction();
    return depth;
 }
 
