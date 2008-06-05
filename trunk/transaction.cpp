@@ -375,10 +375,8 @@ int Transaction::handlingException(int exception)
 {
    mHandlingException = true;
    mPauseDepth++;
-   if(mPauseDepth == 1) {
-      mStatus = TRANS_PAUSE;
-      enableInterrupts();
-   }
+   mStatus = TRANS_PAUSE;
+   enableInterrupts();
    return mPauseDepth;
 }
 
