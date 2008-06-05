@@ -176,7 +176,7 @@ static void core_exception_return(void *callback_data, conf_object_t *obj,
          int i = 0;
          for(i = 0; i < SIM_number_processors(); i++) {
             if((i != cpu_num) && in_transaction(i))
-                SIM_stall_cycle(SIM_get_processor(i), 0xffffffff);
+                SIM_stall_cycle(SIM_get_processor(i), 0);
          }
       }
    }
