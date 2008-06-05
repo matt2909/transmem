@@ -34,32 +34,30 @@
 #include "tm_utils.h"
 #include "tm_init.h"
 
-/* USER-TODO: Set the name of the device class */
+/* Declare this module to have the name transmem in simics */
 #define DEVICE_NAME "transmem"
-#define TRANS_OFF 0
-#define TRANS_ON  1
 
+/* Local pointers to the timing and snoop interfaces       */
 timing_model_interface_t *timing_iface;
 snoop_memory_interface_t *snoop_iface;
 
+/* A struct used to hold the transmem module */
 typedef struct {
     conf_object_t obj;
     timing_model_interface_t *timing_iface;
     snoop_memory_interface_t *snoop_iface;
-} transaction_module_t;
+} transmem_t;
 
-/*
- * Initialize the transaction_module
- */
+/* */
 static conf_object_t *
-transaction_module_new_instance(parse_object_t *parse_obj)
+tranmem_new_instance(parse_object_t *parse_obj)
 {
     init_controller(SIM_number_processors());
-    transaction_module_t *transmod = MM_ZALLOC(1, transaction_module_t);
+    transmem_t *transmem = MM_ZALLOC(1, transmem_t);
     SIM_object_constructor((conf_object_t *) transmod, parse_obj);
-    transmod->timing_iface = timing_iface;
-    transmod->snoop_iface = snoop_iface;
-    return (conf_object_t *) transmod;
+    transmem->timing_iface = timing_iface;
+    transmem->snoop_iface = snoop_iface;
+    return (conf_object_t *) transmem;
 }
 
 static cycles_t
@@ -208,10 +206,10 @@ init_local(void)
 
         /* Register the empty device class. */
         memset(&class_data, 0, sizeof(class_data_t));
-        class_data.new_instance = transaction_module_new_instance;
+        class_data.new_instance = transmem_new_instance;
 	class_data.description =
-		"This device is and experimental TM module called "
-		DEVICE_NAME " - currently not stable!.";
+		"This device is an experimental TM module called "
+		DEVICE_NAME " - currently pre alpha!.";
         conf_class = SIM_register_class(DEVICE_NAME, &class_data);
 
         /* initialize and register the timing model */
