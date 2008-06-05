@@ -121,7 +121,7 @@ void Controller::AbortTransaction()
 
 void Controller::AbortTransactionIdx(int cpu_num)
 {
-    if(trans_handler[cpu_num]->runningTranscation()) {
+    if(trans_handler[cpu_num]->runningTransaction()) {
         trans_handler[cpu_num]->AbortTransaction();
         if(SIM_get_pending_exception()) {
             SIM_last_error();
