@@ -48,7 +48,7 @@ typedef struct {
     snoop_memory_interface_t *snoop_iface;
 } transmem_t;
 
-/* */
+/* simics instantiation of new configuration object for transmem */
 static conf_object_t *
 transmem_new_instance(parse_object_t *parse_obj)
 {
@@ -60,65 +60,55 @@ transmem_new_instance(parse_object_t *parse_obj)
     return (conf_object_t *) transmem;
 }
 
+/* operate: used by the timing interface the returned cycles 
+ * delays the memory operation. 
+ */
 static cycles_t
 transaction_module_operate(conf_object_t *obj, conf_object_t *space,
                            map_list_t *map, generic_transaction_t *mop)
 {
-    /* do the operate stuff here */
     if(SIM_mem_op_is_from_cpu(mop)) 
     {
         return memory_operation(mop);
     }
-    //SIM_clear_exception();
+    
     return 0;
 }
 
 
+/* observe can be used to snoop returned memory values */
 static cycles_t
 transaction_module_observe(conf_object_t *obj, conf_object_t *space,
                            map_list_t *map, generic_transaction_t *mop)
 {
-    /* do the observe stuff here */
     if(SIM_mem_op_is_from_cpu(mop)) 
     {
         memory_observe(mop);
     }
-    //SIM_clear_exception();
     return 0;
 }
 
+/* magic handler called when the Magic hap callback is called */
 static void magic_called(void *callback_data, conf_object_t *obj,
 			   integer_t parameter)
 {
+    /* inquire which processor made the magic call */
     processor_t* cpu  = SIM_current_processor();
+    /* get the value of eax */
     int reg_number = SIM_get_register_number(cpu, "eax");
     int eax = SIM_read_register(cpu, reg_number);
+    /* get the value of edx, used for early release */
     int edx_reg_number = SIM_get_register_number(cpu, "edx");
     int edx = SIM_read_register(cpu, edx_reg_number);
     
     switch(eax) {
-        case TX_BEGIN:
-	    begin_transaction();
-            break;
-        case TX_COMMIT:
-            commit_transaction();
-            break;
-        case TX_ABORT:
-            abort_transaction();
-            break;
-        case TX_DISABLE:
-            disable_interrupts();
-            break;
-        case TX_ENABLE:
-            enable_interrupts();
-            break;
-        case TX_INFO:
-            printf("Simulation cycles ==> %ld\n", (long)SIM_cycle_count(cpu));
-            dump_stats();
-            break;
-        case TX_RELEASE:
-	    early_release(edx);
-	    break;
+        case TX_BEGIN:   begin_transaction();  break;
+        case TX_COMMIT:  commit_transaction(); break;
+        case TX_ABORT:   abort_transaction();  break;
+        case TX_DISABLE: disable_interrupts(); break;
+        case TX_ENABLE:  enable_interrupts();  break;
+        case TX_INFO:    dump_stats();         break;
+        case TX_RELEASE: early_release(edx);   break;
     }  
     SIM_clear_exception();
 }
