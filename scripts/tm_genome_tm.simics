@@ -17,7 +17,7 @@ script-branch {
  con0.wait-for-string "#"
  con0.input "umount /host\n"
  con0.wait-for-string "#"
- con0.input "./genome -g256 -s16 -n16384 -t1\n"
+ con0.input "./genome -g256 -s16 -n16384 -t16\n"
  con0.break "SimStart"
 }
 
