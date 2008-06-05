@@ -157,6 +157,7 @@ void Transaction::AbortTransaction()
     clearStats();
     mStatus = TRANS_OFF;
     enableInterrupts();
+    mHandlingException = false;
 }
 
 void Transaction::clearStats()
