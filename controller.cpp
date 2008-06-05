@@ -121,11 +121,13 @@ void Controller::AbortTransaction()
 
 void Controller::AbortTransactionIdx(int cpu_num)
 {
-    trans_handler[cpu_num]->AbortTransaction();
-    if(SIM_get_pending_exception()) {
-       SIM_last_error();
+    if(trans_handler[cpu_num]->runningTranscation()) {
+        trans_handler[cpu_num]->AbortTransaction();
+        if(SIM_get_pending_exception()) {
+            SIM_last_error();
+        }
+        SIM_clear_exception();
     }
-    SIM_clear_exception();
 }
 
 void Controller::DisableInterrupts()
