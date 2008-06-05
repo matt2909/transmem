@@ -152,6 +152,7 @@ static void core_exception(void *callback_data, conf_object_t *obj,
          for(i = 0; i < SIM_number_processors(); i++) {
             if(i != cpu_num) {
                if(in_transaction(i)) {
+		  SIM_stall_cycle(SIM_get_processor(i), 0xffffffff);
                   //printf("=============================> Disabling a core while in a transaction!\n");
                }
                //SIM_disable_processor(SIM_get_processor(i));
@@ -171,12 +172,13 @@ static void core_exception_return(void *callback_data, conf_object_t *obj,
       printf("****Core Exception ENDS on proc %d\n", cpu_num);
       int depth = clearing_exception(cpu_num, (int)parameter);
       printf("Depth ==> %d\n", depth);
-      /*if(depth == 0) {
+      if(depth == 0) {
          int i = 0;
          for(i = 0; i < SIM_number_processors(); i++) {
-            if(i != cpu_num) SIM_enable_processor(SIM_get_processor(i));
+            if(i != cpu_num & in_transaction(i))
+                SIM_stall_cycle(SIM_get_processor(i), 0xffffffff);
          }
-      }*/
+      }
    }
    SIM_clear_exception();
 }
