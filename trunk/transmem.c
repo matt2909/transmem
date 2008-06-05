@@ -54,7 +54,7 @@ tranmem_new_instance(parse_object_t *parse_obj)
 {
     init_controller(SIM_number_processors());
     transmem_t *transmem = MM_ZALLOC(1, transmem_t);
-    SIM_object_constructor((conf_object_t *) transmod, parse_obj);
+    SIM_object_constructor((conf_object_t *) transmem, parse_obj);
     transmem->timing_iface = timing_iface;
     transmem->snoop_iface = snoop_iface;
     return (conf_object_t *) transmem;
