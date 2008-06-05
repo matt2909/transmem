@@ -174,7 +174,7 @@ static void core_exception_return(void *callback_data, conf_object_t *obj,
       int depth = clearing_exception(cpu_num, (int)parameter);
       printf("Depth ==> %d\n", depth);
       if(depth == 0) {
-          cout << "Transaction restarted by exception completion" << endl;
+          printf("Transaction restarted by exception completion\n");
           SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
       }
    }
