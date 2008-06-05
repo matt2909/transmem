@@ -50,7 +50,7 @@ typedef struct {
 
 /* */
 static conf_object_t *
-tranmem_new_instance(parse_object_t *parse_obj)
+transmem_new_instance(parse_object_t *parse_obj)
 {
     init_controller(SIM_number_processors());
     transmem_t *transmem = MM_ZALLOC(1, transmem_t);
