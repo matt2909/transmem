@@ -2,9 +2,9 @@
 #./simics -c <checkpoint name>
 # -x tm_harness_simple_tm.simics
 
-read-configuration ./checkpoints/x86_1p_clean
-load-module transaction_module
-python "SIM_create_object(\"transaction_module\", \"tm0\", [])"
+read-configuration ./checkpoints/x86_16p_clean
+load-module transmem
+python "SIM_create_object(\"transmem\", \"tm0\", [])"
 
 script-branch {
  con0.input "clear\n"

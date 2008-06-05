@@ -159,7 +159,7 @@ int Controller::MemoryOperation(generic_transaction_t *mop)
             if(res == Sim_Trans_Load) {
 		//tc->operate(cpu_num, LOAD, (int)mop->physical_address);
                 if(!trans_handler[cpu_num]->lastLoad(mop->physical_address))
-                   return 10;
+                   return 100;
             }
             else if(res == Sim_Trans_Store) {
                //tc->operate(cpu_num, STORE, (int)mop->physical_address);
