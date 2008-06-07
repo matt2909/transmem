@@ -131,24 +131,24 @@ static void core_exception(void *callback_data, conf_object_t *obj,
    
    int cpu_num = SIM_get_processor_number(SIM_current_processor());
    if(in_transaction(cpu_num) || in_exception(cpu_num)) {
-      printf("****Core Exception START (%d) on proc %d\n%s\n", (int)parameter, 
-	     cpu_num, SIM_get_exception_name(SIM_current_processor(), parameter));
       int depth = handling_exception(cpu_num, (int)parameter);
-      printf("Depth ==> %d\n", depth);
-/*      if(depth == 1) {
-         int i = 0;
-         for(i = 0; i < SIM_number_processors(); i++) {
-            if(i != cpu_num) {
-               if(in_transaction(i)) {
-		  SIM_stall_cycle(SIM_get_processor(i), 0xffffffff);
-                  //printf("=============================> Disabling a core while in a transaction!\n");
-               }
-               //SIM_disable_processor(SIM_get_processor(i));
-               //SIM_stall_cycle(SIM_get_processor(i), 0x8ffffff);
-            }
-         }   
+      //printf("[%2d] Exception start (%2d) -- %s\n", cpu_num, depth, SIM_get_exception_name(SIM_current_processor(), parameter));
+      
+      /*if(depth == 1) 
+      {
+           //SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
+	   printf("setting undo\n");
+           SIM_stacked_post(SIM_current_processor(), undo, NULL);
+           SIM_breakpoint(SIM_current_processor(), 
+				Sim_Break_Physical, 
+				Sim_Access_Execute, 
+				SIM_get_program_counter(SIM_current_processor()),
+				4,
+				Sim_Breakpoint_Temporary);
+      			
       }
-*/
+      printf("Depth ==> %d\n", depth);
+      */
    }
    SIM_clear_exception();
 }
@@ -158,13 +158,14 @@ static void core_exception_return(void *callback_data, conf_object_t *obj,
 {
    int cpu_num = SIM_get_processor_number(SIM_current_processor());
    if(in_transaction(cpu_num) || in_exception(cpu_num)) {
-      printf("****Core Exception ENDS on proc %d\n", cpu_num);
+      //printf("****Core Exception ENDS on proc %d\n", cpu_num);
       int depth = clearing_exception(cpu_num, (int)parameter);
-      printf("Depth ==> %d\n", depth);
+      //printf("[%2d] Exception ends  (%2d)\n", cpu_num, depth);
+      //printf("Depth ==> %d\n", depth);
       if(depth == 0) {
-          printf("Transaction restarted by exception completion\n");
-	  abort_transaction();
-          //SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
+          //printf("Transaction restarted by exception completion\n");
+	  //abort_transaction();
+          SIM_stacked_post(SIM_current_processor(), resume_transaction, NULL);
       }
    }
    SIM_clear_exception();
@@ -177,6 +178,16 @@ static void core_mode_switch(void *callback_data, conf_object_t *obj,
    if(in_transaction(cpu_num) || in_exception(cpu_num)) {
       printf("****Core Mode Switch (%d) on proc %d\n", (int)parameter, cpu_num);
    }
+   SIM_clear_exception();
+}
+
+static void core_breakpoint(void *callback_data, conf_object_t *obj,
+			   integer_t parameter)
+{
+
+   int cpu_num = SIM_get_processor_number(SIM_current_processor());
+   printf("breakpoint hit %d\n", cpu_num);
+   SIM_stacked_post(SIM_current_processor(), abort_transaction, NULL);
    SIM_clear_exception();
 }
 
@@ -193,6 +204,7 @@ init_local(void)
 	hap_handle_t h3;
 	hap_handle_t h4;
 	hap_handle_t h5;
+	hap_handle_t h6;
 
         /* Register the empty device class. */
         memset(&class_data, 0, sizeof(class_data_t));
@@ -232,6 +244,9 @@ init_local(void)
 
         h5 = SIM_hap_add_callback("Core_Mode_Switch",
 				  (obj_hap_func_t)core_mode_switch,
+				  NULL);
+        h6 = SIM_hap_add_callback("Core_Breakpoint", 
+				  (obj_hap_func_t)core_breakpoint,
 				  NULL);
 
 }

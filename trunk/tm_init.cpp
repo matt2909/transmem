@@ -33,6 +33,12 @@ void abort_transaction()
     global_controller->AbortTransaction();
 }
 
+void resume_transaction()
+{
+    assert(global_controller != NULL);
+    global_controller->ResumeTransaction();
+}
+
 void disable_interrupts()
 {
     assert(global_controller != NULL);
@@ -107,4 +113,8 @@ void abort_transaction_idx(conf_object_t* obj, lang_void* data) {
 void commit_transaction_idx(conf_object_t* obj, lang_void* data) {
     assert(global_controller != NULL);
     global_controller->CommitTransactionIdx(SIM_get_processor_number(obj));
+}
+
+void undo() {
+    printf("Undo called!\n");
 }
