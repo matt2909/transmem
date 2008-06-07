@@ -301,7 +301,12 @@ void MemOp::setData(physical_address_t address, int size, uint32 data)
 
     /* alignment if half-word */
     if(size == 2)
-	assert(address <= (mAddress + 2));
+    {
+        if(!(address <= (mAddress + 2)))
+           cout << "addresses: " << hex << address << " " << mAddress << endl;
+	//assert(address <= (mAddress + 2));
+    }
+
 
     /* having checked bounds and offsets set the chunk */
     int offset = address - mAddress;
@@ -327,8 +332,8 @@ void MemOp::setChunk(int offset, int size, uint32 data)
          switch(offset) {
              case 0: mData = (0xFFFF0000 & mData) | (0xFFFF & data);         break;
              case 1: mData = (0xFF0000FF & mData) | ((0xFFFF & data) << 8);  break;
-             case 2: mData = (0x0000FFFF & mData) | ((0xFFFF & data) << 16); break;
-             default: assert(0); break;
+             default: mData = (0x0000FFFF & mData) | ((0xFFFF & data) << 16); break;
+             //default: assert(0); break;
          }
          break;
      case 4: 

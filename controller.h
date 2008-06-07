@@ -32,6 +32,7 @@ public:
     bool InException(int cpu);
     int handlingException(int cpu, int exception);
     int clearingException(int cpu, int exception);
+    void ResumeTransaction();
 private:
     Thrift_Client* tc;
     int cont_num_cpus;

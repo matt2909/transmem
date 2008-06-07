@@ -10,6 +10,8 @@ extern "C" {
 
 using namespace std;
 
+#define LINE_BYTES 16
+
 class MemOp {
 public:
    MemOp(processor_t* cpu, physical_address_t addr, int, uint32);

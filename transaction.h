@@ -31,6 +31,7 @@ public:
     void BeginTransaction(int process_num);
     void CommitTransaction();
     void AbortTransaction();
+    void ResumeTransaction();
     bool CheckForReadConflict(physical_address_t addr);
     bool CheckForReadConflict(physical_address_t addr, int size);
     void AbortReset();
@@ -45,6 +46,7 @@ public:
     int clearingException(int exception);
     int nestingLevel();
     bool lastLoad(physical_address_t addr);
+    void clearTransaction();
     //processor_t* getCPU();
 
 private:

@@ -2,10 +2,10 @@
 #./simics -c <checkpoint name>
 # -x tm_harness_simple_tm.simics
 
-read-configuration ./checkpoints/x86_1p_clean
-load-module transaction_module
-python "SIM_create_object(\"transaction_module\", \"tm0\", [])"
-cpu-switch-time cycles = 100000
+read-configuration ./checkpoints/x86_16p_clean
+load-module transmem
+python "SIM_create_object(\"transmem\", \"tm0\", [])"
+#cpu-switch-time cycles = 100000
 script-branch {
  con0.input "clear\n"
  con0.wait-for-string "#"
@@ -13,12 +13,12 @@ script-branch {
  con0.wait-for-string "#"
  con0.input "ulimit -c 0\n"
  con0.wait-for-string "#"
- con0.input "cp /host/mnt/scratch/stamp/stamp-0.9.7/labyrinth/labyrinth .\n"
+ con0.input "cp /host/mnt/scratch/stamp/stamp-0.9.7/labyrinth/labyrinth-er .\n"
  con0.wait-for-string "#"
  con0.input "cp /host/mnt/scratch/stamp/stamp-0.9.7/labyrinth/inputs/random-x32-y32-z3-n64.txt .\n"
  con0.input "umount /host\n"
  con0.wait-for-string "#"
- con0.input "./labyrinth -i random-x32-y32-z3-n64.txt -t1\n"
+ con0.input "./labyrinth-er -i random-x32-y32-z3-n64.txt -t16\n"
  con0.break "SimStart"
 }
 r

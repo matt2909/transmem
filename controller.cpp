@@ -130,6 +130,12 @@ void Controller::AbortTransactionIdx(int cpu_num)
     }
 }
 
+void Controller::ResumeTransaction()
+{
+    int cpu_num = SIM_get_processor_number(SIM_current_processor());
+    trans_handler[cpu_num]->ResumeTransaction();
+}
+
 void Controller::DisableInterrupts()
 {
     int cpu_num = SIM_get_processor_number(SIM_current_processor());

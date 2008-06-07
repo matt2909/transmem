@@ -88,8 +88,9 @@ void Transaction::BeginTransaction(int process_num)
 
 void Transaction::CommitTransaction()
 {
-    if(mStatus == TRANS_PAUSE) { //commit triggered at start of exception nesting
-       mStatus = TRANS_OFF;      //set transactions off we don't want to do anything
+   /* if(mStatus == TRANS_PAUSE) { //commit triggered at start of exception nesting
+        assert(0); //does this happen anymore?
+	mStatus = TRANS_OFF;      //set transactions off we don't want to do anything
 	clearStats();
         memory_trace->commit_writes();
         memory_trace->clear();
@@ -100,6 +101,7 @@ void Transaction::CommitTransaction()
         return;
      }
      else if(mStatus == TRANS_OFF) {
+        assert(0); //does this happen anymore?
         nesting--;
         if(nesting != 0) 
         {
@@ -118,7 +120,7 @@ void Transaction::CommitTransaction()
            tm_process_num = -1;
         }
      }
-     else { //default case inside well-behaved transactions!
+     else { //default case inside well-behaved transactions! */
         nesting--;
         if(nesting != 0) {
            cout << "[normal] nesting depth [cpu:" << mCpuNum << "] ==> " << nesting << endl;
@@ -140,7 +142,7 @@ void Transaction::CommitTransaction()
            pc = 0;
            tm_process_num = -1;
         }
-    }
+   // }
     mTc->operate(mCpuNum, COMMIT, (int)SIM_cycle_count(cpu));
 }
 
@@ -149,7 +151,9 @@ void Transaction::AbortTransaction()
     cout << "[" << mCpuNum << "] Abort  transaction (" << tm_process_num << 
             ") depth " << nesting << endl;
     mTc->operate(mCpuNum, ABORT, (int)SIM_cycle_count(cpu));
-    nesting = 0;
+    restoreRegisters();
+    clearTransaction();
+    /*nesting = 0;
     memory_trace->clear();
     restoreRegisters();
     registers.clear();
@@ -158,6 +162,21 @@ void Transaction::AbortTransaction()
     mStatus = TRANS_OFF;
     enableInterrupts();
     mHandlingException = false;
+    mPauseDepth = 0;*/
+}
+
+void Transaction::clearTransaction()
+{
+    nesting = 0;
+    mPauseDepth = 0;
+    mHandlingException = false;
+    enableInterrupts();
+    mStatus = TRANS_OFF;
+    memory_trace->clear();
+    registers.clear();
+    fpu_registers.clear();
+    clearStats();
+    
 }
 
 void Transaction::clearStats()
@@ -252,12 +271,11 @@ void Transaction::clear_read_set()
 /* disable interrupts in an x86 proc */
 void Transaction::disableInterrupts() 
 {
-    int eflag_reg_number = SIM_get_register_number(cpu, "eflags");
+/*    int eflag_reg_number = SIM_get_register_number(cpu, "eflags");
     uinteger_t eflag = SIM_read_register(cpu, eflag_reg_number);
-    // clear bit 9
-    //uinteger_t new_eflag = (eflag & (~0x200));
     uinteger_t new_eflag = (eflag & ~X86_EFLAGS_IF) | X86_EFLAGS_AC; 
     SIM_write_register(cpu, eflag_reg_number, new_eflag);
+*/
     
 }
 
@@ -265,12 +283,13 @@ void Transaction::disableInterrupts()
 void Transaction::enableInterrupts() 
 {
     
-    int eflag_reg_number = SIM_get_register_number(cpu, "eflags");
+/*    int eflag_reg_number = SIM_get_register_number(cpu, "eflags");
     uinteger_t eflag = SIM_read_register(cpu, eflag_reg_number);
     // set bit 9
     //uinteger_t new_eflag = (eflag | 0x200);
     uinteger_t new_eflag = (eflag | X86_EFLAGS_IF) & (~X86_EFLAGS_AC);
     SIM_write_register(cpu, eflag_reg_number, new_eflag);
+*/
 }
 
 void Transaction::earlyRelease(int var)
@@ -328,9 +347,9 @@ void Transaction::restoreRegisters()
     //printf("Register list size == %d\n", (int)registers.size());
     for(int i = 0; i < (int)registers.size(); i++)
     {
-        //if(i < 26) {
+       if(i != 51) {
            SIM_write_register(cpu, i, registers[i]);
-        //}
+       }
     }
 
    attr_list_t fpu_regs = SIM_get_attribute(cpu, "fpu_regs").u.list;
@@ -381,12 +400,20 @@ int Transaction::handlingException(int exception)
    return mPauseDepth;
 }
 
+void Transaction::ResumeTransaction()
+{
+    assert(mStatus == TRANS_PAUSE);
+    mStatus = TRANS_ON;
+    mHandlingException = false;
+}
+
 int Transaction::clearingException(int exception)
 {
    mPauseDepth--;
    if(mPauseDepth == 0) 
    {
       //mStatus = TRANS_ON;
+      //mHandlingException = false;
       //disableInterrupts();
       //AbortTransaction();
    }
@@ -395,7 +422,9 @@ int Transaction::clearingException(int exception)
 
 bool Transaction::inException() 
 {
-   return (mStatus == TRANS_PAUSE || mHandlingException);
+   if(mStatus == TRANS_PAUSE)
+       assert(mHandlingException);
+   return (mStatus == TRANS_PAUSE);
 }
 
 
