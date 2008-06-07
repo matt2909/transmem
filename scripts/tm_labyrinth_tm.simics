@@ -7,6 +7,7 @@ load-module transmem
 python "SIM_create_object(\"transmem\", \"tm0\", [])"
 #cpu-switch-time cycles = 100000
 script-branch {
+ con0.capture-start filename = "labyrinth_16_con0.log"
  con0.input "clear\n"
  con0.wait-for-string "#"
  con0.input "mount /host\n"
@@ -36,7 +37,7 @@ phys_mem0->timing_model = 0
 phys_mem0->snoop_device = 0
 cpu-switch-time cycles = 100000
 con0.break "#"
+con0.capture-stop
 r
 stop
-Turning D-STC off and flushing old data
 
