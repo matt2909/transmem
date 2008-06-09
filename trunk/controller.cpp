@@ -157,7 +157,7 @@ void Controller::EarlyRelease(int var)
 
 int Controller::MemoryOperation(generic_transaction_t *mop) 
 {
-    if(SIM_mem_op_is_from_cpu(mop)) {
+    if(SIM_mem_op_is_from_cpu(mop) && ((x86_memory_transaction_t*)mop)->mode == Sim_CPU_Mode_User) {
         int cpu_num = SIM_get_processor_number(SIM_current_processor());
         if(trans_handler[cpu_num]->runningTransaction()) 
         {
@@ -178,7 +178,8 @@ int Controller::MemoryOperation(generic_transaction_t *mop)
 int Controller::MemoryObserve(generic_transaction_t *mop) 
 {
     int cpu_num = SIM_get_processor_number(SIM_current_processor());
-    if(trans_handler[cpu_num]->runningTransaction()) 
+    if(trans_handler[cpu_num]->runningTransaction()
+    		&& ((x86_memory_transaction_t*)mop)->mode == Sim_CPU_Mode_User) 
     {
         int res = trans_handler[cpu_num]->MemoryObserve(mop);
 	if(res == Sim_Trans_Load) {
