@@ -113,7 +113,7 @@ static void core_exception(void *callback_data, conf_object_t *obj,
    
    int cpu_num = SIM_get_processor_number(SIM_current_processor());
    if(in_transaction(cpu_num) || in_exception(cpu_num)) {
-      int depth = handling_exception(cpu_num, (int)parameter);
+      //int depth = handling_exception(cpu_num, (int)parameter);
       //printf("[%2d] Exception start (%2d) -- %s\n", cpu_num, depth, SIM_get_exception_name(SIM_current_processor(), parameter));
       
       /*if(depth == 1) 

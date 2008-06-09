@@ -38,6 +38,4 @@ phys_mem0->snoop_device = 0
 cpu-switch-time cycles = 100000
 con0.break "#"
 con0.capture-stop
-r
-stop
-
+q

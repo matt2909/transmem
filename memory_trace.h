@@ -30,18 +30,20 @@ private:
 
 class MemoryTrace {
 public:
-    MemoryTrace(processor_t *cpu);
+    MemoryTrace(processor_t *);
     ~MemoryTrace();
     void clear();
     void commit_writes();
     bool has_read(physical_address_t addr, int size);
     int getWriteBufferSize();
     physical_address_t getBufferedWrite(int index);
-    void OperateMemoryRead(generic_transaction_t *mop);
-    void OperateMemoryWrite(generic_transaction_t *mop);
-    void ObserveMemoryRead(generic_transaction_t *mop);
-    void ObserveMemoryWrite(generic_transaction_t *mop);
+    void OperateMemoryRead(generic_transaction_t *);
+    void OperateMemoryWrite(generic_transaction_t *);
+    void ObserveMemoryRead(generic_transaction_t *);
+    void ObserveMemoryWrite(generic_transaction_t *);
     void earlyRelease(int address);
+    uinteger_t getHighData(generic_transaction_t *);
+    uinteger_t getLowData(generic_transaction_t *);
 private:
     processor_t *cpu;
     unsigned int observes;
